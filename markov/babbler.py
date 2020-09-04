@@ -102,7 +102,7 @@ class Babbler:
 
         If the given state never occurs, return an empty list.
         """
-        if self.ngram2 not in self.ngram_map:
+        if ngram not in self.ngram_map:
             return []
         else:
             return self.ngram_map[ngram]
@@ -207,7 +207,7 @@ class Babbler:
         return sentence
 
 
-def main(n=2, filename='tests/test3.txt', num_sentences=40):
+def main(n=3, filename='tests/test3.txt', num_sentences=40):
     """
     Simple test driver.
     """
@@ -226,7 +226,7 @@ def main(n=2, filename='tests/test3.txt', num_sentences=40):
 if __name__ == '__main__':
     # remove the first parameter, which should be babbler.py, the name of the script
     sys.argv.pop(0)
-    n = 3
+    n = 4
     filename = 'tests/test3.txt'
     num_sentences = 5
     if len(sys.argv) > 0:
