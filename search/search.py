@@ -90,7 +90,7 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
-    s = Stack()
+    s = util.Stack()
     s.push((problem.getStartState(), []))
     visited = []
 
