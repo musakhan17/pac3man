@@ -45,7 +45,16 @@ class ValueIterationAgent(ValueEstimationAgent):
 
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
-
+        self.old_values = self.values.copy()
+        for i in range(iterations):
+            for state in mdp.getStates():
+                if not mdp.isTerminal(state):
+                    action_value = -float('inf')
+                    for action in mdp.getPossibleActions(state):
+                        q_value = self.computeQValueFromValues(state, action)
+                        action_value = max(action_value, q_value)
+                    self.values[state] = action_value
+            self.old_values = self.values.copy()
 
     def getValue(self, state):
         """
@@ -53,14 +62,16 @@ class ValueIterationAgent(ValueEstimationAgent):
         """
         return self.values[state]
 
-
     def computeQValueFromValues(self, state, action):
         """
           Compute the Q-value of action in state from the
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        q_value = 0
+        for nextState, prob in self.mdp.getTransitionStatesAndProbs(state, action):
+            q_value += prob * (self.discount * self.old_values[nextState] + self.mdp.getReward(state, action, nextState))
+        return q_value
 
     def computeActionFromValues(self, state):
         """
@@ -72,7 +83,15 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        actions = self.mdp.getPossibleActions(state)
+        max_value = -float('inf')
+        result = None
+        for x in actions:
+            action_value = self.computeQValueFromValues(state, x)
+            if action_value > max_value:
+                max_value = action_value
+                result = x
+        return result
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
